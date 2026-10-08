@@ -115,7 +115,7 @@ async def add_correlation_id(request: Request, call_next):
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 # Mount Frontend Static Directory for Apex Decision Dashboard
-frontend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
+frontend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "dist")
 if os.path.isdir(frontend_dir):
     app.mount("/dashboard", StaticFiles(directory=frontend_dir, html=True), name="dashboard")
 
