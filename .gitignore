@@ -1,5 +1,3 @@
-# Exclude frontend as requested
-frontend/
 
 # Python
 __pycache__/
