@@ -53,19 +53,12 @@ def get_industrial_capex_signals(
     return query.all()
 
 
-@router.get("/cdi", response_model=List[CDIBreakdown])
-@cache_response(expire=3600)  # 1 hour cache
-async def get_composite_demand_index(
-    request: Request,
+def _get_cdi_breakdowns(
+    db: Session,
     district_code: Optional[str] = None,
     nco_code: Optional[str] = None,
     period: Optional[str] = "2026-03",
-    db: Session = Depends(get_db)
-):
-    """
-    Retrieve Composite Demand Index (CDI) multi-modal breakdown:
-    Postings (30%) + Capex (35%) + Velocity (15%) + Wages (10%) + Migration (10%).
-    """
+) -> List[CDIBreakdown]:
     query = (
         db.query(
             CompositeDemandRecord,
@@ -106,6 +99,22 @@ async def get_composite_demand_index(
     return breakdowns
 
 
+@router.get("/cdi", response_model=List[CDIBreakdown])
+@cache_response(expire=3600)  # 1 hour cache
+async def get_composite_demand_index(
+    request: Request,
+    district_code: Optional[str] = None,
+    nco_code: Optional[str] = None,
+    period: Optional[str] = "2026-03",
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve Composite Demand Index (CDI) multi-modal breakdown:
+    Postings (30%) + Capex (35%) + Velocity (15%) + Wages (10%) + Migration (10%).
+    """
+    return _get_cdi_breakdowns(db=db, district_code=district_code, nco_code=nco_code, period=period)
+
+
 @router.get("/summary", response_model=DemandSummaryOut)
 def get_demand_summary(
     period: Optional[str] = "2026-03",
@@ -128,7 +137,7 @@ def get_demand_summary(
     )
 
     # Top 5 demanded trades
-    top_cdi_recs = get_composite_demand_index(district_code=None, nco_code=None, period=period, db=db)[:5]
+    top_cdi_recs = _get_cdi_breakdowns(db=db, district_code=None, nco_code=None, period=period)[:5]
 
     return DemandSummaryOut(
         total_active_postings=int(total_postings),

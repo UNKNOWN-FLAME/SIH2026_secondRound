@@ -65,6 +65,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
+    lifespan=lifespan,
     description="""
 ## Ministry of Skill Development and Entrepreneurship (MSDE)
 ### AI-Enabled Labour Market Intelligence and Skill Demand-Supply Forecasting Engine (PS 26246)
