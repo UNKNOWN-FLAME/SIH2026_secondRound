@@ -119,12 +119,14 @@ def test_simulation_what_if():
 
 
 def test_optimizer_endpoint():
+    from app.core.auth import create_access_token
+    token = create_access_token({"sub": "admin", "role": "MSDE_ADMIN"})
     payload = {
         "target_cycle": "2026-27",
         "max_seat_variation_pct": 20.0,
         "total_budget_cap_cr": 250.0
     }
-    res = client.post("/api/v1/optimizer/optimize", json=payload)
+    res = client.post("/api/v1/optimizer/optimize", json=payload, headers={"Authorization": f"Bearer {token}"})
     assert res.status_code == 200
     data = res.json()
     assert data["total_trades_optimized"] > 0

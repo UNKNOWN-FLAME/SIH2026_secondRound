@@ -36,9 +36,9 @@ def get_spatial_mobility_corridors(
     corridor_pairs = [
         {"orig": "UP_KANPUR", "dest": "MH_PUNE", "nco": "7231.0200", "surplus_nco": "7231.0100"},
         {"orig": "MH_NAGPUR", "dest": "MH_PUNE", "nco": "7411.0100", "surplus_nco": "7411.0100"},
-        {"orig": "UP_LUCKNOW", "dest": "KA_BLR_URBAN", "nco": "3511.0100", "surplus_nco": "4132.0100"},
-        {"orig": "GJ_AHMEDABAD", "dest": "MH_PUNE", "nco": "7421.0300", "surplus_nco": "8212.0300"},
-        {"orig": "UP_KANPUR", "dest": "GJ_AHMEDABAD", "nco": "8212.0100", "surplus_nco": "8212.0300"}
+        {"orig": "UP_LUCKNOW", "dest": "TN_CHENNAI", "nco": "3511.0100", "surplus_nco": "4132.0100"},
+        {"orig": "TN_COIMBATORE", "dest": "MH_PUNE", "nco": "7421.0300", "surplus_nco": "8212.0300"},
+        {"orig": "UP_KANPUR", "dest": "TN_CHENNAI", "nco": "8212.0100", "surplus_nco": "8212.0300"}
     ]
 
     corridors: List[CorridorRouteItem] = []

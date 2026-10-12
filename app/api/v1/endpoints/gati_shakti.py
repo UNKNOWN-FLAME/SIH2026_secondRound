@@ -30,7 +30,7 @@ def list_gati_shakti_corridors():
 def audit_gati_shakti_catchment(
     node_id_or_district: str = Query(
         "MH_PUNE",
-        description="Corridor Node ID (e.g., 'GS-NODE-WDFC-PUNE') or District Code (e.g., 'MH_PUNE', 'UP_KANPUR', 'GJ_AHMEDABAD')"
+        description="Corridor Node ID (e.g., 'GS-NODE-WDFC-PUNE') or District Code (e.g., 'MH_PUNE', 'UP_KANPUR', 'TN_CHENNAI')"
     ),
     catchment_radius_km: float = Query(
         50.0,

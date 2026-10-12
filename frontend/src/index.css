@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+}
+
+/* Premium Enterprise Surfaces */
+.glass-panel {
+  @apply bg-white border border-slate-200 shadow-sm rounded-xl;
+}
+
+.auth-panel {
+  @apply bg-slate-900 text-white border border-slate-800 shadow-xl rounded-xl;
+}
+
+/* ==========================================================================
+   High-Fidelity Official Document Print Styles (A4 Gazette / Sanction Order)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm 20mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Hide app navigation, sidebar, headers, and interactive buttons */
+  aside,
+  header,
+  nav,
+  button,
+  .no-print,
+  .print-hidden,
+  [data-print-hide="true"] {
+    display: none !important;
+  }
+
+  /* Unconstrain modal overlays to behave as full-page documents */
+  .print-modal-backdrop {
+    position: static !important;
+    inset: auto !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: auto !important;
+  }
+
+  .print-modal-container {
+    position: static !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    width: 100% !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .print-modal-header {
+    display: none !important;
+  }
+
+  .print-document-sheet {
+    max-height: none !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Page-break avoidance */
+  .print-avoid-break, table, tr, td, th {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* High contrast table styling for clear print */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  table th, table td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 6px 10px !important;
+  }
+
+  table thead th {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

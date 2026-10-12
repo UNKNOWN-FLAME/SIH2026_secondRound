@@ -43,7 +43,7 @@ def test_gati_shakti_endpoints():
     assert data["district_code"] == "MH_PUNE"
     assert "local_itis_in_catchment" in data
 
-    res_sim = client.post("/api/v1/gati-shakti/simulate-corridor-expansion?project_title=Sanand+Logistic+Park&district_code=GJ_AHMEDABAD&investment_inr_cr=800.0")
+    res_sim = client.post("/api/v1/gati-shakti/simulate-corridor-expansion?project_title=Chennai+Port+Logistic+Park&district_code=TN_CHENNAI&investment_inr_cr=800.0")
     assert res_sim.status_code == 200
     sim_data = res_sim.json()
     assert sim_data["derived_workforce_demand"] > 0

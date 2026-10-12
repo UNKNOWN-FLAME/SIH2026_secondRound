@@ -122,52 +122,52 @@ def seed_innovations_data(db: Session):
                 "lon": 80.4420
             },
 
-            # Ahmedabad (GJ_AHMEDABAD)
+            # Chennai (TN_CHENNAI)
             {
-                "uid": "MSDE-AHM-2025-0211",
-                "name": "Hardik Jayesh Patel",
-                "phone": "+91 98250 88319",
-                "district": "GJ_AHMEDABAD",
+                "uid": "MSDE-CHE-2025-0105",
+                "name": "R. K. Saravanan",
+                "phone": "+91 94440 18234",
+                "district": "TN_CHENNAI",
                 "nco": "7421.0300",
                 "nsqf": 4,
-                "institute": "Government ITI Sanand Auto Hub",
-                "lat": 22.9868,
-                "lon": 72.3787
+                "institute": "Government ITI Guindy, Chennai",
+                "lat": 13.0067,
+                "lon": 80.2026
             },
             {
-                "uid": "MSDE-AHM-2025-0442",
-                "name": "Jignesh Bhikhabhai Vaghela",
-                "phone": "+91 98791 44203",
-                "district": "GJ_AHMEDABAD",
-                "nco": "7231.0200",
+                "uid": "MSDE-CHE-2025-0318",
+                "name": "M. K. Vignesh",
+                "phone": "+91 98401 55672",
+                "district": "TN_CHENNAI",
+                "nco": "8212.0100",
                 "nsqf": 4,
-                "institute": "Government ITI Kubernagar, Ahmedabad",
-                "lat": 23.0612,
-                "lon": 72.6318
+                "institute": "PMKK Electronics Cluster Sriperumbudur",
+                "lat": 12.9692,
+                "lon": 79.9482
             },
 
-            # Bengaluru Urban (KA_BLR_URBAN)
+            # Coimbatore (TN_COIMBATORE)
             {
-                "uid": "MSDE-BLR-2025-0105",
-                "name": "Karthik R. Gowda",
-                "phone": "+91 99801 77312",
-                "district": "KA_BLR_URBAN",
-                "nco": "3511.0100",
-                "nsqf": 5,
-                "institute": "Government ITI Hosur Road, Bengaluru",
-                "lat": 12.9352,
-                "lon": 77.6101
+                "uid": "MSDE-CBE-2025-0211",
+                "name": "K. Senthamizh Selvan",
+                "phone": "+91 94432 99104",
+                "district": "TN_COIMBATORE",
+                "nco": "7231.0200",
+                "nsqf": 4,
+                "institute": "Government ITI Coimbatore (North)",
+                "lat": 11.0183,
+                "lon": 76.9621
             },
             {
-                "uid": "MSDE-BLR-2025-0318",
-                "name": "Syed Farooq Ahmed",
-                "phone": "+91 98450 66201",
-                "district": "KA_BLR_URBAN",
-                "nco": "7421.0300",
+                "uid": "MSDE-CBE-2025-0442",
+                "name": "P. Anand Kumar",
+                "phone": "+91 98940 33819",
+                "district": "TN_COIMBATORE",
+                "nco": "7411.0100",
                 "nsqf": 4,
-                "institute": "PMKK Electronics Hub Peenya",
-                "lat": 13.0312,
-                "lon": 77.5180
+                "institute": "Coimbatore Precision & Green Skill Institute",
+                "lat": 11.0250,
+                "lon": 76.9800
             },
 
             # Lucknow (UP_LUCKNOW)
@@ -239,7 +239,7 @@ def seed_innovations_data(db: Session):
 
     # 2. Seed District Material Inflows (Time-Series Commodity Proxy for 6 Districts x 24 Months)
     if db.query(DistrictMaterialInflow).count() == 0:
-        districts = ["MH_PUNE", "MH_NAGPUR", "UP_KANPUR", "UP_LUCKNOW", "GJ_AHMEDABAD", "KA_BLR_URBAN"]
+        districts = ["MH_PUNE", "MH_NAGPUR", "UP_KANPUR", "UP_LUCKNOW", "TN_CHENNAI", "TN_COIMBATORE"]
         commodities = [
             {
                 "code": "COMM_CEMENT_TMT",
@@ -468,36 +468,36 @@ def seed_innovations_data(db: Session):
                 "tag": "Festive Return (Chhath/Diwali) & Agricultural Window"
             },
             {
-                "route": "Surat (ST) -> Patna / Muzaffarpur (PNBE/MFP) Textile & Diamond Corridors",
-                "orig_stn": "ST",
-                "orig_hub": "Surat Industrial Diamond & Textile Hub",
-                "orig_state": "GJ",
-                "orig_dist": "GJ_AHMEDABAD",
-                "dest_stn": "PNBE",
-                "dest_cluster": "Patna & North Bihar Feeder",
-                "dest_state": "BR",
-                "dest_dist": "BR_PATNA",
-                "week": "2026-W42",
-                "outflow": 46000,
-                "nco": "7212.0100",
-                "artisans": 21500,
-                "tag": "Chhath Puja Mass Migration Corridor"
-            },
-            {
-                "route": "Bengaluru (SBC) -> Lucknow (LKO) IT & Electronics Corridors",
-                "orig_stn": "SBC",
-                "orig_hub": "Bengaluru Urban Electronics Parks",
-                "orig_state": "KA",
-                "orig_dist": "KA_BLR_URBAN",
+                "route": "Chennai Central (MAS) -> Lucknow Charbagh (LKO) High-Skill Industrial Corridor",
+                "orig_stn": "MAS",
+                "orig_hub": "Chennai Automotive & ESDM Corridor (Guindy/Sriperumbudur)",
+                "orig_state": "TN",
+                "orig_dist": "TN_CHENNAI",
                 "dest_stn": "LKO",
-                "dest_cluster": "Lucknow / Kanpur Industrial Belt",
+                "dest_cluster": "Lucknow & Central UP Feeder",
                 "dest_state": "UP",
                 "dest_dist": "UP_LUCKNOW",
                 "week": "2026-W42",
-                "outflow": 24000,
+                "outflow": 42000,
                 "nco": "7421.0300",
-                "artisans": 9800,
-                "tag": "Post-Harvest Annual Rotation"
+                "artisans": 18500,
+                "tag": "Inter-State Industrial High-Skill Corridor"
+            },
+            {
+                "route": "Coimbatore Junction (CBE) -> Pune Junction (PUNE) Precision EV Engineering Corridor",
+                "orig_stn": "CBE",
+                "orig_hub": "Coimbatore Precision Engineering Hub",
+                "orig_state": "TN",
+                "orig_dist": "TN_COIMBATORE",
+                "dest_stn": "PUNE",
+                "dest_cluster": "Pune Industrial Belt (Chakan MIDC)",
+                "dest_state": "MH",
+                "dest_dist": "MH_PUNE",
+                "week": "2026-W42",
+                "outflow": 26000,
+                "nco": "7231.0200",
+                "artisans": 11200,
+                "tag": "EV Powertrain & Tooling Rotation"
             }
         ]
 
@@ -552,14 +552,14 @@ def seed_innovations_data(db: Session):
                 "lead": 10
             },
             {
-                "node_id": "GS-NODE-EXPR-AHMEDABAD",
-                "name": "Sanand-Dholera Expressway Multi-Modal Logistics Hub",
-                "type": "Industrial Expressway Node & EV Logistics Anchor",
-                "dist": "GJ_AHMEDABAD",
-                "state": "GJ",
-                "lat": 22.9868,
-                "lon": 72.3787,
-                "capex": 1650.0,
+                "node_id": "GS-NODE-CORRIDOR-CHENNAI",
+                "name": "Chennai-Bengaluru Industrial Corridor (CBIC) Ennore Port Node",
+                "type": "Multi-Modal Port & Electronics Logistics Hub",
+                "dist": "TN_CHENNAI",
+                "state": "TN",
+                "lat": 13.0827,
+                "lon": 80.2707,
+                "capex": 2400.0,
                 "go_live": "2026-12",
                 "radius": 50.0,
                 "lead": 8
@@ -688,16 +688,16 @@ def seed_innovations_data(db: Session):
                 "alignment": "Empowers PM Surya Ghar Muft Bijli Yojana installation targets and solar EPC turnkey contractors in Central UP."
             },
             {
-                "opp_id": "CSR-OPP-AHM-MARUTI",
-                "corporate": "Maruti Suzuki Foundation for Skill Development",
+                "opp_id": "CSR-OPP-CHE-HYUNDAI",
+                "corporate": "Hyundai Motor India & Foxconn CSR Foundation",
                 "sector": "ESDM",
-                "district": "GJ_AHMEDABAD",
+                "district": "TN_CHENNAI",
                 "nco": "7421.0300",
-                "grant": 42.0,
-                "trainees": 280,
-                "captive": 80.0,
-                "sroi": 7.8,
-                "alignment": "Supplies certified SMT printed circuit board assembly line technicians for Sanand electronics automotive hub."
+                "grant": 55.0,
+                "trainees": 380,
+                "captive": 82.0,
+                "sroi": 8.8,
+                "alignment": "Direct high-tech workforce pipeline for Sriperumbudur SMT electronics assembly lines and EV manufacturing clusters."
             }
         ]
 

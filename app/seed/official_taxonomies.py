@@ -10,12 +10,11 @@ Includes:
 OFFICIAL_STATES = [
     {"code": "MH", "name": "Maharashtra", "capital": "Mumbai"},
     {"code": "UP", "name": "Uttar Pradesh", "capital": "Lucknow"},
-    {"code": "GJ", "name": "Gujarat", "capital": "Gandhinagar"},
-    {"code": "KA", "name": "Karnataka", "capital": "Bengaluru"}
+    {"code": "TN", "name": "Tamil Nadu", "capital": "Chennai"}
 ]
 
 OFFICIAL_DISTRICTS = [
-    # Maharashtra
+    # Maharashtra (2 Districts)
     {
         "code": "MH_PUNE",
         "lgd_code": 490,
@@ -36,7 +35,7 @@ OFFICIAL_DISTRICTS = [
         "longitude": 79.0882,
         "industrial_focus": "MIHAN SEZ, Solar Installations, Logistics & Warehousing"
     },
-    # Uttar Pradesh
+    # Uttar Pradesh (2 Districts)
     {
         "code": "UP_KANPUR",
         "lgd_code": 160,
@@ -57,27 +56,26 @@ OFFICIAL_DISTRICTS = [
         "longitude": 80.9462,
         "industrial_focus": "Healthcare Hub, Biotechnology, IT City, Allied Medical Services"
     },
-    # Gujarat
+    # Tamil Nadu (2 Districts)
     {
-        "code": "GJ_AHMEDABAD",
-        "lgd_code": 444,
-        "name": "Ahmedabad",
-        "state_code": "GJ",
+        "code": "TN_CHENNAI",
+        "lgd_code": 603,
+        "name": "Chennai",
+        "state_code": "TN",
         "tier": "Tier 1",
-        "latitude": 23.0225,
-        "longitude": 72.5714,
-        "industrial_focus": "Solar Park Equipment, Chemicals, Textile Machinery, EV Hub Sanand"
+        "latitude": 13.0827,
+        "longitude": 80.2707,
+        "industrial_focus": "Automotive Capital of India, Electronics Hardware & ESDM, Port Logistics"
     },
-    # Karnataka
     {
-        "code": "KA_BLR_URBAN",
-        "lgd_code": 529,
-        "name": "Bengaluru Urban",
-        "state_code": "KA",
-        "tier": "Tier 1",
-        "latitude": 12.9716,
-        "longitude": 77.5946,
-        "industrial_focus": "Semiconductor Design, AI & Cloud Computing, Aerospace, ESDM Clusters"
+        "code": "TN_COIMBATORE",
+        "lgd_code": 602,
+        "name": "Coimbatore",
+        "state_code": "TN",
+        "tier": "Tier 2",
+        "latitude": 11.0168,
+        "longitude": 76.9558,
+        "industrial_focus": "Precision Engineering, Pumps & Motors, EV Component Hub, Textile Technology"
     }
 ]
 
@@ -395,28 +393,40 @@ REAL_INDUSTRIAL_CAPEX_PROJECTS = [
         "scheme_ref": "PLI Scheme for Advanced Chemistry Cell (ACC) Battery"
     },
     {
-        "project_name": "Micron Semiconductor Assembly & Test (ATMP) Complex Sanand",
-        "district_code": "GJ_AHMEDABAD",
-        "sector_code": "ESDM",
-        "primary_nco_code": "8212.0100",
-        "investment_inr_cr": 6600.0,
-        "announcement_period": "2024-05",
-        "gestation_period_months": 14,
-        "expected_direct_jobs": 5000,
-        "status": "Operational",
-        "scheme_ref": "India Semiconductor Mission (ISM)"
-    },
-    {
-        "project_name": "Foxconn & Dixon Mobile & SMT Electronics Cluster",
-        "district_code": "KA_BLR_URBAN",
+        "project_name": "Foxconn & Pegatron Mega ESDM & SMT Cluster Sriperumbudur",
+        "district_code": "TN_CHENNAI",
         "sector_code": "ESDM",
         "primary_nco_code": "7421.0300",
+        "investment_inr_cr": 6800.0,
+        "announcement_period": "2024-05",
+        "gestation_period_months": 14,
+        "expected_direct_jobs": 5200,
+        "status": "Operational",
+        "scheme_ref": "PLI for Large Scale Electronics Manufacturing"
+    },
+    {
+        "project_name": "Coimbatore Precision EV Motor & Green Automation Hub",
+        "district_code": "TN_COIMBATORE",
+        "sector_code": "GREEN_ENERGY",
+        "primary_nco_code": "7231.0200",
         "investment_inr_cr": 3200.0,
         "announcement_period": "2024-09",
         "gestation_period_months": 12,
-        "expected_direct_jobs": 4200,
+        "expected_direct_jobs": 3800,
         "status": "Operational",
-        "scheme_ref": "PLI for Large Scale Electronics Manufacturing"
+        "scheme_ref": "National Electric Mobility Mission Plan (NEMMP)"
+    },
+    {
+        "project_name": "UP Defense Industrial Corridor Electronics & Drone Hub",
+        "district_code": "UP_KANPUR",
+        "sector_code": "ESDM",
+        "primary_nco_code": "8212.0100",
+        "investment_inr_cr": 2800.0,
+        "announcement_period": "2024-10",
+        "gestation_period_months": 14,
+        "expected_direct_jobs": 3100,
+        "status": "Under-Construction",
+        "scheme_ref": "UP Defense & Aerospace Manufacturing Policy"
     },
     {
         "project_name": "Medanta & Apollo Emergency Trauma Hub & Dialysis Network",

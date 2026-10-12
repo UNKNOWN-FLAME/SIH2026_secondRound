@@ -58,7 +58,7 @@ def get_bridge_recommendations(
     db: Session = Depends(get_db)
 ):
     """
-    Skill Adjacency & Bridge-Course Recommender (Winning Pillar 2).
+    Skill Adjacency & Bridge-Course Recommender.
     Maps saturated legacy trades to emerging high-growth trades based on competency
     overlap, calculates shortest skill distance, and recommends NSQF-aligned bridge courses.
     """

@@ -265,8 +265,8 @@ class CurriculumAnalyzerService:
                 urgency = "MAINTAIN"
                 rec = "Curriculum satisfies current industry hiring thresholds."
 
-            outdated_mods = [OutdatedModuleItem(**m)] if bench and "outdated_modules" in bench else []
-            missing_skills = [MissingSkillItem(**s)] if bench and "missing_skills" in bench else []
+            outdated_mods = [OutdatedModuleItem(**m) for m in bench.get("outdated_modules", [])] if bench else []
+            missing_skills = [MissingSkillItem(**s) for s in bench.get("missing_skills", [])] if bench else []
             lab_equipment_gap = bench.get("lab_equipment_gap", ["Standard NSQF Level 4 Lab Modernization"]) if bench else ["Standard Lab Upgrade Required"]
 
             return CurriculumObsolescenceAuditOut(

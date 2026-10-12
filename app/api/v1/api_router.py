@@ -38,14 +38,14 @@ api_router.include_router(supply.router, prefix="/supply", tags=["Training Suppl
 api_router.include_router(forecasting.router, prefix="/forecasting", tags=["12M & 24M Time-Series Forecasting"])
 api_router.include_router(mismatch.router, prefix="/mismatch", tags=["Mismatch & Early Warnings"])
 
-# SIH Winning Pillars
+# Core Strategic Decision Modules
 api_router.include_router(skill_graph.router, prefix="/skills", tags=["Skill Adjacency & Bridge Courses"])
 api_router.include_router(simulation.router, prefix="/simulation", tags=["What-If Policy Simulation Sandbox"])
 api_router.include_router(optimizer.router, prefix="/optimizer", tags=["Autonomous Target Optimizer"])
 api_router.include_router(curriculum.router, prefix="/curriculum", tags=["NCVET Curriculum Obsolescence"])
 api_router.include_router(mobility.router, prefix="/mobility", tags=["Inter-District Spatial Mobility Corridors"])
 
-# The 5 Ground-Reality Innovations
+# Field-Data Ingestion Pipelines
 api_router.include_router(tenders.router, prefix="/tenders", tags=["Forward-Predictive Tenders (GeM/CPPP BoQ)"])
 api_router.include_router(proxies.router, prefix="/proxies", tags=["Informal Material Consumption Proxies"])
 api_router.include_router(lego.router, prefix="/lego", tags=["Lego-Block Micro-Credential Pivots"])

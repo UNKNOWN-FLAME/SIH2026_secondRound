@@ -67,8 +67,9 @@ class SpatialGravityEngine:
         # Attraction mass: (Surplus * Deficit * RealWageMultiplier) / Distance^Gamma
         raw_gravity = (surplus_s * deficit_d) / (dist_km ** self.gamma) * wage_multiplier
         
-        # Normalize gravity score on a logarithmic sigmoid curve to prevent extreme outliers
-        gravity_score = round(100.0 / (1.0 + math.exp(-0.005 * (raw_gravity - 2500))), 1)
+        # Normalize gravity score on a sigmoid curve calibrated for inter-district gravity
+        gravity_score = round(100.0 / (1.0 + math.exp(-0.05 * (raw_gravity - 35))), 1)
+        gravity_score = max(15.0, min(98.5, gravity_score))
 
         # 4. Behavioral Migration Propensity (Log-Log Elasticity Model)
         # Absorption increases logarithmically with real wage premium, decays exponentially with distance

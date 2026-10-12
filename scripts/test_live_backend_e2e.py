@@ -117,7 +117,7 @@ ENDPOINTS_TO_TEST: List[Dict[str, Any]] = [
     # 17. PM Gati-Shakti Multi-Modal Infrastructure Catchment
     {"category": "Gati-Shakti", "name": "Corridor Nodes Catalog", "method": "GET", "path": "/api/v1/gati-shakti/corridors"},
     {"category": "Gati-Shakti", "name": "Catchment Audit (50km)", "method": "GET", "path": "/api/v1/gati-shakti/catchment-audit?node_id_or_district=MH_PUNE&catchment_radius_km=50"},
-    {"category": "Gati-Shakti", "name": "Simulate Corridor Expansion", "method": "POST", "path": "/api/v1/gati-shakti/simulate-corridor-expansion?project_title=Sanand+Logistics+Node&district_code=GJ_AHMEDABAD&investment_inr_cr=1200.0"},
+    {"category": "Gati-Shakti", "name": "Simulate Corridor Expansion", "method": "POST", "path": "/api/v1/gati-shakti/simulate-corridor-expansion?project_title=Chennai+Logistics+Node&district_code=TN_CHENNAI&investment_inr_cr=1200.0"},
 
     # 18. AI Automation & Skill Obsolescence Radar
     {"category": "Obsolescence Radar", "name": "Trade Risk Matrix", "method": "GET", "path": "/api/v1/obsolescence/trade-risk-matrix"},

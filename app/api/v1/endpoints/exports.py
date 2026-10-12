@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.schemas.policy import OptimizerRequest
-from app.api.v1.endpoints.optimizer import optimize_training_targets
-from app.api.v1.endpoints.mismatch import get_mismatch_dashboard
+from app.api.v1.endpoints.optimizer import compute_optimized_targets_data
+from app.api.v1.endpoints.mismatch import fetch_mismatch_dashboard_data
 
 router = APIRouter()
 
@@ -28,7 +28,7 @@ def export_sanction_plan_csv(
         max_seat_variation_pct=max_seat_variation_pct,
         target_state_code=state_code
     )
-    result = optimize_training_targets(request=req, period="2026-03", db=db)
+    result = compute_optimized_targets_data(db=db, request=req, period="2026-03")
 
     output = io.StringIO()
     writer = csv.writer(output)
@@ -90,7 +90,7 @@ def export_executive_policy_brief(
     Generates a structured Executive Labour Market Intelligence Brief
     for apex leadership (MSDE Secretary, NCVET Chairman, SSC CEOs).
     """
-    dash = get_mismatch_dashboard(period=period, state_code=None, db=db)
+    dash = fetch_mismatch_dashboard_data(db=db, period=period, state_code=None)
 
     brief = {
         "title": "EXECUTIVE LABOUR MARKET INTELLIGENCE & SKILL FORECASTING BRIEF",

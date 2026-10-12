@@ -81,14 +81,14 @@ def get_simulation_presets():
         },
         {
             "id": "PRESET_SEMICONDUCTOR_ATMP",
-            "name": "India Semiconductor Mission ATMP Sanand Expansion",
-            "description": "Simulates ₹300 Cr investment in cleanroom & SMT packaging capacity in Gujarat.",
+            "name": "India Semiconductor Mission & Foxconn Mega ESDM Complex",
+            "description": "Simulates ₹500 Cr investment in cleanroom & SMT packaging capacity in Tamil Nadu (Chennai).",
             "params": {
-                "scenario_name": "India Semiconductor Mission ATMP Sanand Expansion",
+                "scenario_name": "India Semiconductor Mission & Foxconn Mega ESDM Complex",
                 "target_sector_code": "ESDM",
-                "target_district_code": "GJ_AHMEDABAD",
-                "capex_injection_cr": 300.0,
-                "additional_seats_sanctioned": 1800,
+                "target_district_code": "TN_CHENNAI",
+                "capex_injection_cr": 500.0,
+                "additional_seats_sanctioned": 2200,
                 "training_stipend_boost_pct": 15.0,
                 "simulation_horizon_months": 24
             }

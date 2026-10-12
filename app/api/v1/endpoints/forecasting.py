@@ -1,3 +1,4 @@
+import hashlib
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
@@ -27,11 +28,17 @@ def get_trade_forecast_trajectory(
     district_code: str = Query(..., description="Target District Code (e.g. 'MH_PUNE', 'UP_KANPUR')"),
     nco_code: str = Query(..., description="NCO-2015 Trade Code (e.g. '7411.0100')"),
     horizon_months: int = Query(12, description="Forecasting Horizon: 12 (Tactical) or 24 (Strategic)"),
+    capex_boost_cr: float = Query(0.0, description="Industrial Capex Injection in ₹ Cr"),
+    inflation_rate_pct: float = Query(5.5, description="Headline Inflation rate (%)"),
+    fdi_inflow_cr: float = Query(0.0, description="FDI / Mega-Project Inflow in ₹ Cr"),
+    stipend_boost_pct: float = Query(0.0, description="Trainee Stipend Boost (%)"),
+    model_type: str = Query("ENSEMBLE", description="Model: ENSEMBLE, GRADIENT_BOOSTING, LSTM, ARIMA"),
     db: Session = Depends(get_db)
 ):
     """
     Generate 12-Month or 24-Month forward-looking monthly demand-supply forecasts
-    with P10, P50 (median), and P90 statistical confidence intervals.
+    with P10, P50 (median), and P90 statistical confidence intervals,
+    multi-model curves (ARIMA, LSTM, Gradient Boosting), and real-time macro-economic shocks.
     """
     if horizon_months not in [12, 24]:
         raise HTTPException(status_code=400, detail="Horizon months must be either 12 or 24.")
@@ -87,45 +94,71 @@ def get_trade_forecast_trajectory(
                 projected_demand_p90=float(d_rec.projected_headcount_demand),
                 projected_supply=float(s_rec.effective_local_supply),
                 mismatch_ratio=ratio,
-                severity_flag=flag
+                severity_flag=flag,
+                gbr_demand=float(d_rec.projected_headcount_demand),
+                lstm_demand=float(d_rec.projected_headcount_demand),
+                arima_demand=float(d_rec.projected_headcount_demand),
+                shock_delta=0.0
             )
         )
 
     # Growth drift factor based on emerging vs legacy classification
     drift = 0.22 if occ.is_emerging else (-0.06 if occ.is_legacy_at_risk else 0.08)
 
-    # 3. Generate forward forecast series
+    # 3. Generate forward forecast series with macro shocks and multi-model curves
     future_points = forecasting_engine.forecast_trajectory(
         historical_demands=hist_demands,
         historical_supplies=hist_supplies,
         start_year=2026,
         start_month=4,
         horizon_months=horizon_months,
-        annual_growth_drift=drift
+        annual_growth_drift=drift,
+        is_emerging=occ.is_emerging,
+        is_legacy_at_risk=occ.is_legacy_at_risk,
+        capex_boost_cr=capex_boost_cr,
+        inflation_rate_pct=inflation_rate_pct,
+        fdi_inflow_cr=fdi_inflow_cr,
+        stipend_boost_pct=stipend_boost_pct,
+        model_type=model_type
     )
 
-    # Executive narrative
+    # Executive narrative & Deficit metrics
     last_point = future_points[-1]
     last_ratio = last_point.mismatch_ratio
+
+    # Find peak deficit month
+    deficits = [(p.period, p.projected_demand_p50 - p.projected_supply) for p in future_points]
+    peak_pt = max(deficits, key=lambda x: x[1])
+    peak_deficit_month = peak_pt[0] if peak_pt[1] > 0 else None
+    peak_deficit_count = int(round(peak_pt[1])) if peak_pt[1] > 0 else 0
+
+    # Calculate at-risk public funds if oversupplied/saturated
+    # Average public training subsidy is ~ ₹48,000 per trainee seat annually
+    surplus_seats = max(0, int(sum(max(0, p.projected_supply - p.projected_demand_p50) for p in future_points) / max(len(future_points), 1)))
+    at_risk_funds_cr = round((surplus_seats * 48000) / 10000000.0, 2) if occ.is_legacy_at_risk or last_ratio <= 0.60 else 0.0
 
     if last_ratio >= 1.60:
         recommendation = (
             f"URGENT POLICY ACTION REQUIRED: By {last_point.period}, demand ({int(last_point.projected_demand_p50)}) "
             f"will exceed effective supply ({int(last_point.projected_supply)}) by {last_ratio}x. "
             f"MSDE should sanction an additional {int(round(last_point.projected_demand_p50 - last_point.projected_supply))} "
-            f"annual training seats across local ITIs and PMKK centers."
+            f"annual training seats across local ITIs and PMKK centers to prevent industrial talent choking."
         )
     elif last_ratio <= 0.50:
         recommendation = (
             f"CAPACITY REDUCTION & RESKILLING ADVISORY: Chronic oversupply detected ({last_ratio}x demand/supply ratio). "
-            f"Graduates are failing to find local placement. Freeze new seat sanctions and redirect at least 50% "
-            f"of current batch intake into adjacent emerging bridge modules."
+            f"Graduates are failing to find local placement. Freeze new seat sanctions (saving ₹{at_risk_funds_cr} Cr in public funds) "
+            f"and redirect at least 50% of current batch intake into adjacent emerging bridge modules."
         )
     else:
         recommendation = (
             f"STABLE EQUILIBRIUM: Trade is projected to remain balanced ({last_ratio}x ratio). Maintain current seat quotas "
-            f"while monitoring quality of placement outcomes."
+            f"while monitoring placement outcomes."
         )
+
+    # Cryptographic Audit Verification Hash (Institutional Compliance)
+    cag_str = f"{district_code}:{nco_code}:{horizon_months}:{capex_boost_cr}:{inflation_rate_pct}:{last_ratio}"
+    cag_hash = hashlib.sha256(cag_str.encode()).hexdigest()[:16].upper()
 
     return TradeForecastSeries(
         district_code=district.code,
@@ -134,8 +167,21 @@ def get_trade_forecast_trajectory(
         trade_title=occ.title,
         sector_code=occ.sector_code,
         horizon_months=horizon_months,
-        historical_points=historical_points[-12:], # Last 12 historical months
+        historical_points=historical_points[-12:],  # Last 12 historical months
         future_points=future_points,
         overall_severity=last_point.severity_flag,
-        executive_recommendation=recommendation
+        executive_recommendation=recommendation,
+        peak_deficit_month=peak_deficit_month,
+        peak_deficit_count=peak_deficit_count,
+        at_risk_funds_cr=at_risk_funds_cr,
+        macro_shock_impact={
+            "capex_boost_cr": capex_boost_cr,
+            "inflation_rate_pct": inflation_rate_pct,
+            "fdi_inflow_cr": fdi_inflow_cr,
+            "stipend_boost_pct": stipend_boost_pct,
+            "active_model": model_type
+        },
+        model_metadata=forecasting_engine.get_model_metadata(),
+        cag_audit_hash=cag_hash
     )
+

@@ -14,19 +14,11 @@ from app.services.optimizer_engine import target_optimizer_engine
 router = APIRouter()
 
 
-@router.post("/optimize", response_model=OptimizationSummary)
-def optimize_training_targets(
+def compute_optimized_targets_data(
+    db: Session,
     request: OptimizerRequest,
-    period: Optional[str] = Query("2026-03", description="Base demand/capacity period"),
-    db: Session = Depends(get_db),
-    user: dict = Depends(require_role(["MSDE_ADMIN"]))
-):
-    """
-    Autonomous Policy Target Optimizer (Winning Pillar 3).
-    Formulates and solves a constrained optimization model to determine
-    the mathematically optimal annual seat allocations per trade and district,
-    respecting maximum delta capacity ceilings (+/- 20%) and MSDE budget caps.
-    """
+    period: Optional[str] = "2026-03"
+) -> OptimizationSummary:
     # 1. Fetch current seats and projected demand for all trades
     query = (
         db.query(
@@ -71,3 +63,19 @@ def optimize_training_targets(
     ]
 
     return target_optimizer_engine.optimize_allocations(current_data, request)
+
+
+@router.post("/optimize", response_model=OptimizationSummary)
+def optimize_training_targets(
+    request: OptimizerRequest,
+    period: Optional[str] = Query("2026-03", description="Base demand/capacity period"),
+    db: Session = Depends(get_db),
+    user: dict = Depends(require_role(["MSDE_ADMIN"]))
+):
+    """
+    Autonomous Policy Target Optimizer.
+    Formulates and solves a constrained optimization model to determine
+    the mathematically optimal annual seat allocations per trade and district,
+    respecting maximum delta capacity ceilings (+/- 20%) and MSDE budget caps.
+    """
+    return compute_optimized_targets_data(db=db, request=request, period=period)

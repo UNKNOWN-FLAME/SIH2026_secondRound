@@ -14,19 +14,11 @@ from app.services.mismatch_engine import mismatch_engine
 router = APIRouter()
 
 
-@router.get("/dashboard", response_model=MismatchDashboardResponse)
-@cache_response(expire=1800)  # 30 mins cache
-async def get_mismatch_dashboard(
-    request: Request,
+def fetch_mismatch_dashboard_data(
+    db: Session,
     period: Optional[str] = "2026-03",
-    state_code: Optional[str] = None,
-    db: Session = Depends(get_db)
-):
-    """
-    Early-Warning Mismatch Diagnostic Dashboard.
-    Ranks trades by severity of deficit or surplus, generates automated alerts,
-    and provides district geographic stress heatmaps.
-    """
+    state_code: Optional[str] = None
+) -> MismatchDashboardResponse:
     # 1. Fetch all districts metadata
     districts = db.query(District).all()
     dist_meta = {
@@ -84,6 +76,22 @@ async def get_mismatch_dashboard(
     return mismatch_engine.generate_dashboard(record_dicts, dist_meta)
 
 
+@router.get("/dashboard", response_model=MismatchDashboardResponse)
+@cache_response(expire=1800)  # 30 mins cache
+async def get_mismatch_dashboard(
+    request: Request,
+    period: Optional[str] = "2026-03",
+    state_code: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    """
+    Early-Warning Mismatch Diagnostic Dashboard.
+    Ranks trades by severity of deficit or surplus, generates automated alerts,
+    and provides district geographic stress heatmaps.
+    """
+    return fetch_mismatch_dashboard_data(db=db, period=period, state_code=state_code)
+
+
 @router.get("/district/{district_code}")
 def get_district_mismatch_drilldown(
     district_code: str,
@@ -95,7 +103,7 @@ def get_district_mismatch_drilldown(
     if not district:
         raise HTTPException(status_code=404, detail="District not found.")
 
-    res = get_mismatch_dashboard(period=period, state_code=None, db=db)
+    res = fetch_mismatch_dashboard_data(db=db, period=period, state_code=None)
     
     district_shortages = [i for i in res.top_undersupplied_trades if i.district_code == district_code]
     district_surpluses = [i for i in res.top_oversupplied_trades if i.district_code == district_code]

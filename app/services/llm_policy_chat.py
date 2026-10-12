@@ -46,7 +46,7 @@ class SovereignLLMPolicyEngine:
             
         elif "solar" in query_lower or "renewable" in query_lower:
             district_match = re.search(r'in\s+([a-zA-Z\s]+)', query_lower)
-            district = district_match.group(1).strip().title() if district_match else "Gujarat"
+            district = district_match.group(1).strip().title() if district_match else "Nagpur"
             
             memo = (
                 f"**EXECUTIVE POLICY MEMO**\n"

@@ -67,12 +67,12 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     description="""
 ## Ministry of Skill Development and Entrepreneurship (MSDE)
-### AI-Enabled Labour Market Intelligence and Skill Demand-Supply Forecasting Engine (PS 26246)
+### National Labour Market Information System & Skill Demand-Supply Analytics Engine
 
-An apex decision-support backend for MSDE, NCVET, and State Skill Missions:
-* **Pillar 1: Multi-Source Lead-Indicator Demand Fusion (CDI)**: Ingests job postings, industrial Capex/PLI signals, and e-Shram mobility into a unified demand index.
-* **Pillar 2: Skill Adjacency & Bridge-Course Engine**: Recommends shortest skill transition pathways (4–8 week bridge modules) for surplus trades using NCO-2015/NSQF graphs.
-* **Pillar 3: Autonomous Policy Target Optimizer & What-If Sandbox**: Solves constrained linear allocation problems to generate optimal annual training targets per district and trade.
+An apex decision-support platform for MSDE, NCVET, and State Skill Missions:
+* **Multi-Source Demand Fusion (CDI)**: Ingests employer hiring signals, industrial Capex projects, and migration corridors into a composite demand index.
+* **Skill Transition & Competency Pathways**: Recommends shortest skill transition pathways (4–8 week modular addenda) for available candidate cohorts using NCO-2015/NSQF ontologies.
+* **Autonomous Target Optimizer & Scenario Sandbox**: Computes capacity-balanced training targets per district and trade to eliminate skill deficits.
     """,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
