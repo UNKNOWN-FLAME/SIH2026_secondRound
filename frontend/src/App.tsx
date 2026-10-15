@@ -1,8 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import Layout from './components/Layout';
+
+// Shell
+import ShellLayout from './components/ShellLayout';
+
+// Auth
 import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
+
+// Primary routes (new shell spec)
+import CommandDashboard from './pages/CommandDashboard';
+import DataHubPage from './pages/DataHubPage';
+import SandboxPage from './pages/SandboxPage';
+import SkillGraphRoutePage from './pages/SkillGraphRoutePage';
+
+// Existing module pages (preserved)
 import DemandPage from './pages/DemandPage';
 import SupplyPage from './pages/SupplyPage';
 import ForecastingPage from './pages/ForecastingPage';
@@ -20,6 +31,7 @@ import ExportsPage from './pages/ExportsPage';
 import WhatsAppPage from './pages/WhatsAppPage';
 import MigrationPage from './pages/MigrationPage';
 import LegoPage from './pages/LegoPage';
+import DashboardPage from './pages/DashboardPage';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('lmis_token');
@@ -46,14 +58,20 @@ export default function App() {
           path="/"
           element={
             <PrivateRoute>
-              <Layout />
+              <ShellLayout />
             </PrivateRoute>
           }
         >
-          <Route index element={<DashboardPage />} />
+          {/* ── Primary spec routes ── */}
+          <Route index element={<CommandDashboard />} />
+          <Route path="data-hub" element={<DataHubPage />} />
+          <Route path="forecasting" element={<ForecastingPage />} />
+          <Route path="sandbox" element={<SandboxPage />} />
+          <Route path="skill-graph" element={<SkillGraphRoutePage />} />
+
+          {/* ── Preserved existing routes ── */}
           <Route path="demand" element={<DemandPage />} />
           <Route path="supply" element={<SupplyPage />} />
-          <Route path="forecasting" element={<ForecastingPage />} />
           <Route path="mismatch" element={<MismatchPage />} />
           <Route path="skills" element={<SkillGraphPage />} />
           <Route path="simulation" element={<SimulationPage />} />
@@ -68,6 +86,8 @@ export default function App() {
           <Route path="whatsapp" element={<WhatsAppPage />} />
           <Route path="migration" element={<MigrationPage />} />
           <Route path="lego" element={<LegoPage />} />
+          {/* Legacy dashboard preserved at /legacy-dashboard */}
+          <Route path="legacy-dashboard" element={<DashboardPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

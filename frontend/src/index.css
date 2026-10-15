@@ -388,3 +388,29 @@ tbody td { padding: 10px 12px; color: var(--color-text); vertical-align: middle;
 .severity-BALANCED { color: var(--color-success); }
 .severity-MILD_SURPLUS { color: var(--color-warning); }
 .severity-CHRONIC_SATURATION { color: #a78bfa; }
+.severity-INTERMEDIATE_HIGH { color: var(--color-orange); }
+.severity-INTERMEDIATE_LOW { color: var(--color-warning); }
+
+/* ── Leaflet override for dark theme ── */
+.leaflet-container { background: #0a0d14 !important; }
+.leaflet-control-zoom a { background: #1a1d2e !important; color: #94a3b8 !important; border-color: #2e3350 !important; }
+.leaflet-control-zoom a:hover { background: #252839 !important; color: #e2e8f0 !important; }
+.leaflet-control-attribution { background: rgba(15,17,23,0.8) !important; color: #475569 !important; font-size: 9px !important; }
+.leaflet-control-attribution a { color: #64748b !important; }
+
+/* ── Shell responsive ── */
+@media (max-width: 768px) {
+  .page { padding: 12px; gap: 12px; }
+  /* Sidebar collapses to icons-only on mobile */
+}
+
+/* ── Dashboard responsive grid ── */
+@media (max-width: 900px) {
+  .dashboard-map-queue { grid-template-columns: 1fr !important; }
+  .dashboard-analytics { grid-template-columns: 1fr !important; }
+  .dashboard-kpi { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 540px) {
+  .dashboard-kpi { grid-template-columns: 1fr !important; }
+}
+
