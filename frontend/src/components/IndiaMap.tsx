@@ -19,13 +19,15 @@ import { DEMO_ALERTS, SEVERITY_META, classifySeverity } from '../mock/demoData';
 import { Layers, AlertTriangle, Loader, MapPin } from 'lucide-react';
 
 // Fix Leaflet default icon paths broken by Vite
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-});
+const LeafletLib = (L as unknown as { default?: typeof L }).default ?? L;
+if (LeafletLib?.Icon?.Default?.prototype) {
+  delete (LeafletLib.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
+  LeafletLib.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  });
+}
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
